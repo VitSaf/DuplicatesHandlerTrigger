@@ -2,16 +2,19 @@
 public class ContactTriggerTest {
 /**
  * all 87% coverage
+ * === Apex Code Coverage by Class
+        CLASSES                PERCENT  UNCOVERED LINES
+        ─────────────────────  ───────  ───────────────
+        TriggerDispatcher      100%                    
+        ContactTriggerHandler  77%      27,33,36       
+        ContactHelper          87%      23,24,36,38,58 
+        ContactTrigger         100%      
  */
     @TestSetup
     static void makeData(){
         insert new Contact(LastName = 'Testov', FirstName = 'Test', Email = 'test@mail.com');//origin
     }
-/**
- *      new Contact(LastName = 'Testov', FirstName = 'Not', Email = 'nottest@mail.com');//not dupl
-        new Contact(LastName = 'Contactov', FirstName = 'Anon', Email = 'test@mail.com');//email dupl
-        new Contact(LastName = 'Testov', FirstName = 'Test', Email = 'diff@mail.com');//Name dupl
- */
+
     @isTest
     private static void testBeforeInsertDuplEmail() {
         String result;
