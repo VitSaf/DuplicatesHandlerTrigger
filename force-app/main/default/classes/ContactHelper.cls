@@ -1,6 +1,7 @@
 public with sharing class ContactHelper {
 
 
+    @TestVisible
     private static final String ERROR_TEXT = 'This is a duplicate';
 
     public static void checkForDuplicatesInsert(List<Contact> newContacts) {
@@ -24,13 +25,19 @@ public with sharing class ContactHelper {
             }
         }
         for(Contact duplContact : [SELECT Id, Name, FirstName, LastName, Email FROM Contact WHERE Name IN :names OR Email In :emails]) {//potential duplicates
-            if (nameContactMap.get(duplContact.FirstName + ' ' + duplContact.LastName) != null) {//checking Names
-                nameContactMap.get(duplContact.Name).addError(ERROR_TEXT);
-            } else {
-                if (emailContactMap.get(duplContact.Email) != null) {//if names OK checking emails
-                    emailContactMap.get(duplContact.Email).addError(ERROR_TEXT);
+            try {
+                if (nameContactMap.get(duplContact.FirstName + ' ' + duplContact.LastName) != null) {//checking Names
+                    nameContactMap.get(duplContact.Name).addError(ERROR_TEXT);
+                } else {
+                    if (emailContactMap.get(duplContact.Email) != null) {//if names OK checking emails
+                        emailContactMap.get(duplContact.Email).addError(ERROR_TEXT);
+                    }
                 }
+            } catch (Exception e) {
+                System.debug(e + ' | ' + duplContact);
+                continue;
             }
+
         }
 
     }
@@ -53,13 +60,19 @@ public with sharing class ContactHelper {
         }
         //same as in checkForDuplicatesInsert
         for(Contact duplContact : [SELECT Id, Name, LastName, FirstName, Email FROM Contact WHERE Name IN :names OR Email IN :emails]) {
-            if (newContactsMap.get(duplContact.Id).FirstName + ' ' + newContactsMap.get(duplContact.Id).LastName == duplContact.FirstName + ' ' + duplContact.LastName) {
-                newContactsMap.get(duplContact.Id).addError(ERROR_TEXT);
-            } else {
-                if (newContactsMap.get(duplContact.Id).Email == duplContact.Email) {
+            try {
+                if (newContactsMap.get(duplContact.Id).FirstName + ' ' + newContactsMap.get(duplContact.Id).LastName == duplContact.FirstName + ' ' + duplContact.LastName) {
                     newContactsMap.get(duplContact.Id).addError(ERROR_TEXT);
+                } else {
+                    if (newContactsMap.get(duplContact.Id).Email == duplContact.Email) {
+                        newContactsMap.get(duplContact.Id).addError(ERROR_TEXT);
+                    }
                 }
+            } catch (Exception e) {
+                System.debug(e + ' | ' + duplContact);
+                continue;
             }
+
         }
     }
 }
