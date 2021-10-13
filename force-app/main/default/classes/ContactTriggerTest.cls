@@ -1,7 +1,7 @@
 @IsTest
 public class ContactTriggerTest {
 /**
- * all 87% coverage
+ * 
  * === Apex Code Coverage by Class
         CLASSES                PERCENT  UNCOVERED LINES
         ─────────────────────  ───────  ───────────────

@@ -1,8 +1,7 @@
 public with sharing class ContactTriggerHandler implements ITriggerHandler {
     private static ContactTriggerHandler instance;
 
-    private ContactTriggerHandler() {
-    }
+    private ContactTriggerHandler() {}
 
     /**
      * Create a simple deduplication trigger for contacts.
