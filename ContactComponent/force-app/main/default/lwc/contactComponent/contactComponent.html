@@ -1,0 +1,37 @@
+<template>
+    <template if:true={accounts}>
+        <lightning-combobox name="accountComboPicker" label="Pick account" placeholder="Select account"
+            options={accounts} value="" onchange={handleAccountPick} required class="slds-m-around_medium">
+        </lightning-combobox>
+    </template>
+    <template if:true={accountId}>
+        <lightning-card title={cardTitle} icon-name="standard:record">
+            <div class="slds-m-around_medium">
+                <div class="one-row">
+                    <lightning-dual-listbox name="contactFields" label="Select fields to create for contact"
+                        source-label="Available" selected-label="Selected" required-options={requiredOptions} value={requiredOptions}
+                        field-level-help="Select your preferred fields" options={contactFieldsOptions}
+                        onchange={handleFieldsSelect}></lightning-dual-listbox>
+                </div>
+
+                <template if:true={selectedContactFields}>
+                    <div class="slds-m-around_medium">
+                        <lightning-record-edit-form object-api-name="Contact" onsubmit={handleSubmit} >
+                            <template for:each={selectedContactFields} for:item="field">
+                                <li key={index}>
+                                    <lightning-input-field field-name={field}> </lightning-input-field>
+                                </li>
+                            </template>
+                            <lightning-button
+                                label="Submit"
+                                type="submit"
+                            >
+                            </lightning-button>
+                        </lightning-record-edit-form>
+                    </div>
+                </template>
+                <lightning-button label="Save all records" variant="brand" onclick={createContact}></lightning-button>
+            </div>
+        </lightning-card>
+    </template>
+</template>
